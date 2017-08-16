@@ -7,11 +7,13 @@ using namespace gibbs_lda;
 //do nothing
 Corpus::Corpus(){}
 
-template<class Iterator_tp>
-Corpus::Corpus(Iterator_tp begin, Iterator_tp end)
-{
-	this->append<Iterator_tp>(begin, end);
-}
+//template function should be defined in hpp file
+//
+//template<class Iterator_tp>
+//Corpus::Corpus(Iterator_tp begin, Iterator_tp end)
+//{
+//	this->append<Iterator_tp>(begin, end);
+//}
 
 //do nothing
 Corpus::~Corpus(){}

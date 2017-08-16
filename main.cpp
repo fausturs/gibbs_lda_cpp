@@ -5,9 +5,8 @@
 
 int main()
 {
-	gibbs_lda::Corpus corpus;
 	std::vector< std::vector< std::string > > ds = {{"1","2","3"},{"1","5","6"},{"6","8"}};
-	corpus.append(std::begin(ds), std::end(ds));
+	gibbs_lda::Corpus corpus(ds.begin(), ds.end());
 
 	for (int i=0; i<3; i++)
 	{

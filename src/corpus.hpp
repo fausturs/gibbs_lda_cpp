@@ -45,6 +45,12 @@ public:
 //some template member function
     
     template<class Iterator_tp>
+    Corpus::Corpus(Iterator_tp begin, Iterator_tp end)
+    {
+    	this->append<Iterator_tp>(begin, end);
+    }
+    
+    template<class Iterator_tp>
     void Corpus::append(Iterator_tp begin, Iterator_tp end)
     {
     	for (auto it = begin; it!=end; it++)
