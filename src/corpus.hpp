@@ -12,8 +12,8 @@ using Document = std::vector<int>;
     
 class Corpus{
 
-	Corpus(const Corpus&) = delete;
-	Corpus& operator=(const Corpus&) = delete;
+    Corpus(const Corpus&) = delete;
+    Corpus& operator=(const Corpus&) = delete;
     
     using document_type = std::vector< Document >;
     
@@ -29,40 +29,40 @@ public:
     using const_iterator            = document_type::const_iterator;
     using const_reverse_iterator    = document_type::const_reverse_iterator;
     
-	Corpus();
-	template<class Iterator_tp>
-	Corpus(Iterator_tp begin, Iterator_tp end);
+    Corpus();
+    template<class Iterator_tp>
+    Corpus(Iterator_tp begin, Iterator_tp end);
 
-	~Corpus();
+    ~Corpus();
 
-	//moveable
-	Corpus(Corpus&&);
-	Corpus& operator=(Corpus&&);
+    //moveable
+    Corpus(Corpus&&);
+    Corpus& operator=(Corpus&&);
 
-	//return the word id of document i word j
-	//return -1 when out of range
+    //return the word id of document i word j
+    //return -1 when out of range
     int at(size_t i, size_t j) const;
-	//get document by index
-	Document& operator[](size_t i);
-	const Document& operator[](size_t i) const;
-	//how many documents in corpus and how many words in each document
-	size_t documents_num() const;
-	size_t words_num(size_t i) const;
+    //get document by index
+    Document& operator[](size_t i);
+    const Document& operator[](size_t i) const;
+    //how many documents in corpus and how many words in each document
+    size_t documents_num() const;
+    size_t words_num(size_t i) const;
     //
     int word_to_id(const std::string&) const;
     std::string id_to_word(int) const;
     //
     bool has_word(const std::string&) const;
     bool has_id(int) const;
-	//return a copy of id_2_word
+    //return a copy of id_2_word
     std::vector< std::string > all_words() const;
     //return the total number of different words, it's id_2_word.size()
     size_t all_words_num() const;
     //
-	void clear();
-	//
+    void clear();
+    //
     template<class Iterator_tp>
-	void append(Iterator_tp begin, Iterator_tp end);
+    void append(Iterator_tp begin, Iterator_tp end);
     
     //
     const_iterator begin() const;

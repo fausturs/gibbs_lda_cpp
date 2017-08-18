@@ -21,9 +21,9 @@ private:
 protected:
     std::mt19937 mt;
     
-	size_t topic_num;
-	size_t documents_num;
-	size_t all_words_num;
+    size_t topic_num;
+    size_t documents_num;
+    size_t all_words_num;
     
     //the multinomial distribution's parameter for each document
     double alpha;
@@ -39,10 +39,10 @@ protected:
     //sum_w_nw[topic] = \sum_w nw[w][topic]
     std::vector< int > sum_w_nw;
     
-	//\theta_d|\alpha ~ Dirichlet(\alpha)  size is documents_num*topic_num
-	//std::vector< std::vector<double> > theta;
-	//\phi_k|\beta ~ Dirichlet(\beta)      size is topic_num*all_words_num
-	//std::vector< std::vector<double> > phi;
+    //\theta_d|\alpha ~ Dirichlet(\alpha)  size is documents_num*topic_num
+    //std::vector< std::vector<double> > theta;
+    //\phi_k|\beta ~ Dirichlet(\beta)      size is topic_num*all_words_num
+    //std::vector< std::vector<double> > phi;
     
     //topic
     std::vector< std::vector<int> > z;
@@ -59,16 +59,16 @@ public:
     //the model output the log to this ostringstream
     static std::ostringstream lda_log;
     
-	//
-	Gibbs_LDA() = default;
+    //
+    Gibbs_LDA() = default;
     ~Gibbs_LDA() = default;
 
     Gibbs_LDA(Gibbs_LDA&&);
     Gibbs_LDA& operator=(Gibbs_LDA&&);
 
-	//clear all parameter 
-	void clear();
-		
+    //clear all parameter 
+    void clear();
+        
     /*
      corpus
         training data
