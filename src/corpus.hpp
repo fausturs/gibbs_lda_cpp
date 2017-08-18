@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <unordered_map>
 
 namespace gibbs_lda {
