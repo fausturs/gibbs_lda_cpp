@@ -29,8 +29,6 @@ protected:
     double alpha;
     double beta;
 
-    //total number of words assigned to topic j, size is topic_num*1
-    std::vector< int > words_num_of_topic;
     //number of instances of word i assigned to topic j, size is all_words_num*topic_num
     std::vector< std::vector<int> > nw;
     //number of words in document i assigned to topic j, size is documents_num*topic_num
@@ -89,8 +87,11 @@ public:
     id_prob_tuple_list get_term_topics(int word, double minimum_probability = 0.05, bool need_sort = false) const;
     //return a list of (word, probability) 2-tuples for the most probable words in topic topicid.
     id_prob_tuple_list get_topic(int topic, double minimum_probability = 0.05, bool need_sort = false) const;
-
-    void save(const std::string& file_path);
+    
+    //return a list of tuple (topic id, probability)
+    //id_prob_tuple_list inference(const Document&);
+    //
+    void save(const std::string& file_path) const;
     void load(const std::string& file_path);
     //for test;
     void print();

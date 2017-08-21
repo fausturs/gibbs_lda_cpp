@@ -41,6 +41,11 @@ int main(int args, char* argv[])
 	gibbs_lda::Gibbs_LDA lda;
 	lda.train(corpus, 20, 1, 200, std::clog);
 
+	std::cerr<<"saveing...\n";
+	lda.save("model.txt");
+	std::cerr<<"loading...\n";
+	lda.load("model.txt");
+
 	int doc_id = std::atoi(argv[1]);	
 	auto a = lda.get_document_topics(doc_id, 0, true);
 	for (auto &x : a)

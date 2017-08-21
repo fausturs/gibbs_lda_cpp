@@ -1,7 +1,10 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <algorithm>
 #include <numeric>
+
+#include <assert.h>
 
 #include "gibbs_lda.hpp"
 #include "Timer.hpp"
@@ -20,7 +23,6 @@ void Gibbs_LDA::clear()
     //
     alpha = beta = 0;
     //move
-    words_num_of_topic= std::vector<int>();
     
     nw = std::vector< std::vector<int> >();
     nd = std::vector< std::vector<int> >();
@@ -51,14 +53,11 @@ void Gibbs_LDA::initialize_model(const gibbs_lda::Corpus& corpus, size_t topic_n
     alpha   = 50.0 / topic_num;
     beta    = 0.1;
     
-    words_num_of_topic.resize(this->topic_num, 0);
+    sum_w_nw.resize(this->topic_num, 0);
     
-    //use words_num_of_topic as a const parameter for init other value
-    nw.resize(all_words_num, words_num_of_topic);
-    nd.resize(documents_num, words_num_of_topic);
-    
-    //same size
-    sum_w_nw = words_num_of_topic;
+    //use sum_w_nw as a const parameter for init other value
+    nw.resize(all_words_num, sum_w_nw);
+    nd.resize(documents_num, sum_w_nw);
     
     //theta has the same size with nd
     //std::vector<double> temp1(topic_num, 0.0);
@@ -222,6 +221,70 @@ Gibbs_LDA::id_prob_tuple_list Gibbs_LDA::get_topic(int topic, double minimum_pro
     if (need_sort) sort_by_probability(ans);
     
     return ans;
+}
+
+void Gibbs_LDA::save(const std::string& file_path) const
+{
+    std::ofstream myout(file_path);
+    assert(myout);
+    //
+    myout<<topic_num<<" "<<documents_num<<" "<<all_words_num<<std::endl;
+    myout<<alpha<<" "<<beta<<std::endl;
+    //
+    for (const auto & counter : nw)
+        for (const auto & num : counter) myout<<num<<" ";
+    myout<<std::endl;
+    for (const auto & counter : nd)
+        for (const auto & num : counter) myout<<num<<" ";
+    myout<<std::endl;
+    for (const auto & num : sum_w_nw) myout<<num<<" ";
+    myout<<std::endl;
+    //member z
+    //There are documents_num lines
+    //The first number of each line indicates the number of the remaining numbers in this line.
+    for (const auto & topics : z)
+    {
+        myout<<topics.size()<<" ";
+        for (const auto & topic : topics) myout<<topic<<" ";
+        myout<<std::endl;
+    }
+}
+
+void Gibbs_LDA::load(const std::string& file_path)
+{
+    std::ifstream myin(file_path);
+    assert(myin);
+    
+    clear();
+    //
+    myin>>topic_num>>documents_num>>all_words_num;
+    myin>>alpha>>beta;
+    //
+    nw.resize(all_words_num);
+    for (auto & counter : nw)
+    {
+        counter.resize(topic_num, 0);
+        for (auto & num : counter) myin>>num;
+    }
+    nd.resize(documents_num);
+    for (auto & counter : nd)
+    {
+        counter.resize(topic_num, 0);
+        for (auto & num : counter) myin>>num;
+    }
+    sum_w_nw.resize(topic_num, 0);
+    for (auto num : sum_w_nw) myin>>num;
+    //member z
+    //There are documents_num lines
+    //The first number of each line indicates the number of the remaining numbers in this line.
+    z.resize(documents_num);
+    for (auto & topics : z)
+    {
+        size_t size;
+        myin>>size;
+        topics.resize(size, 0);
+        for (auto & topic : topics) myin>>topic;
+    }
 }
 
 void Gibbs_LDA::print()
